@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>move</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				overflow: hidden;
+			}
+			#aa,#dd,#bb,#cc {
+				padding: 0;
+				margin: 0;
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				background-color: darkgray;	
+			}
+			#aa {
+				left: 0px;
+				top: 0px;
+			}
+			#bb {
+				left: 100px;
+				top: 0px;
+			}
+			#cc {
+				left: 0px;
+				top: 100px;
+			}
+			#dd {
+				left: 100px;
+				top: 100px;
+			}
+	
+			body {
+				background-color: #000000;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="aa"></div>
+		<div id="bb"></div>	
+		<div id="cc"></div>
+		<div id="dd"></div>		
+		<script type="text/javascript">
+				/*
+				*移动函数,speedX横向速度,speedY纵向速度
+				*/
+				function move(ele){
+					//var oDiv = document.getElementById(id);
+					//querySelector()
+					//匹配指定选择器的第一个元素,参数是css选择器
+					var eleLeft = parseInt(window.getComputedStyle(ele).left);
+					//parseInt()
+					//将字符串变为正数
+					//window.getComputedStyle()
+					//获取指定元素的css样式
+					var eleTop = parseInt(window.getComputedStyle(ele).top);
+					ele.style.left = eleLeft + ele.speedX + "px";
+					ele.style.top = eleTop  + ele.speedY + "px";
+					checkEleClashBoder(ele);
+				}
+				/*
+				* 碰撞检测函数
+				*/
+			   function checkEleClashBoder(ele){
+				   //var oDiv = document.getElementById(ele);
+				   var eleLeft = parseInt(window.getComputedStyle(ele).left);
+				   var eleTop  = parseInt(window.getComputedStyle(ele).top);
+				   var eleW  = parseInt(window.getComputedStyle(ele).width);
+				   var eleH  = parseInt(window.getComputedStyle(ele).height);
+				   
+				   
+				   
+				   if(eleLeft < 0){
+					   ele.speedX *= -1;
+					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
+					   }
+				   if(eleLeft > window.innerWidth - eleW - 0){
+					   eleLeft = window.innerWidth - eleW - 0;
+					   ele.speedX *= -1;
+					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
+					   }
+				   if(eleTop > window.innerHeight - eleH){
+					   ele.speedY *= -1;
+					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
+					   }
+				   if(eleTop < 0){
+					   ele.speedY *= -1;
+					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
+					   }
+				   
+			   }
+				/*
+				*块间碰撞
+				*/
+			   function checkEleClash(eleA,eleB){
+				   var aLeft = parseInt(window.getComputedStyle(eleA).left);
+				   var bLeft = parseInt(window.getComputedStyle(eleB).left);
+				   var diffLeft = Math.abs(aLeft - bLeft);
+				   
+				   var aTop = parseInt(window.getComputedStyle(eleA).top);
+				   var bTop = parseInt(window.getComputedStyle(eleB).top);
+				   var diffTop = Math.abs(aTop - bTop);
+				   //console.log(diffLeft);
+				   
+				   if(diffLeft <= 100 && diffTop <=100)
+				   {
+					   [eleA.speedX,eleB.speedX] = [eleB.speedX,eleA.speedX];
+					   [eleA.speedY,eleB.speedY] = [eleB.speedY,eleA.speedY];
+					   //console.log("boom");
+				   }
+			   }
+			   
+				var ele1 = document.getElementById("aa");
+				var ele2 = document.getElementById("bb");
+				var ele3 = document.getElementById("cc");
+				var ele4 = document.getElementById("dd");
+				ele1.speedX = 5;ele1.speedY = 10;
+				ele2.speedX = 8;ele2.speedY = 7;
+				ele3.speedX = 3;ele3.speedY = 17;
+				ele4.speedX = 14;ele4.speedY = 8;
+				
+				console.log(Math.round(Math.random()*100)%4);
+				var eleColor = ["yellow","green","blueviolet","crimson"];
+				////////定时移动
+				setInterval(function() {
+					move(ele1);
+					move(ele2);
+					move(ele3);
+					move(ele4);
+					checkEleClash(ele1,ele2);
+					checkEleClash(ele1,ele3);
+					checkEleClash(ele1,ele4);
+					checkEleClash(ele2,ele3);
+					checkEleClash(ele2,ele4);
+					checkEleClash(ele3,ele4);
+					},100);
+			</script>
+	</body>
+</html>
