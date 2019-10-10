@@ -3,8 +3,26 @@
 	<head>
 		<meta charset="utf-8">
 		<title> 秒表</title>
+		<style type="text/css">
+			#div1 {
+				text-align: center;
+				font-weight: 600;
+				font-size: 35px;
+				text-shadow: #A9A9A9 3px 2px 2px;
+			}
+			#timeBox {
+				margin: 10px;
+				
+				border: 3px solid #A9A9A9;
+				
+				background-color: blanchedalmond;
+				text-align: center;
+			}
+		</style>
 		<script type="text/javascript">  
 	   window.onload = function(){
+		   
+			var oBody = document.getElementsByTagName("body")[0];
 		   
 		   var oBegin = document.getElementById("begin");
 		   var oStop = document.getElementById("stop");
@@ -26,6 +44,7 @@
 			   cord.innerHTML = cord.innerHTML+ "<br>" + oHour.innerHTML + " : " + oMint.innerHTML + " : " + oSecn.innerHTML;
 		   }
 			oBegin.onclick = function(){  //点击开始按钮
+				oBody.style.backgroundColor = "cadetblue";
 				 intId = setInterval(function(){ //计时器
 					var cont = i++;
 					if (i >= 61){
@@ -48,6 +67,7 @@
 				clearInterval(intId);
 			}
 			oClean.onclick = function(){ //清零
+				oBody.style.backgroundColor = "white";
 				clearInterval(intId);
 				 i = 1;
 				 min = 1;
@@ -67,8 +87,8 @@
 		</script>
 	</head>
 	<body>
+		<div id="div1">秒表</div>
 		<div id="timeBox">
-			<div id="div1">秒表</div>
 			<span id="hour">00</span> :
 			<span id="mint">00</span> :
 			<span id="secn">00</span>
