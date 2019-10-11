@@ -11,12 +11,13 @@
 			}
 			body {
 				overflow: hidden;
+				background-color: #000000;
 			}
 			#aa,#dd,#bb,#cc {
 				padding: 0;
 				margin: 0;
-				width: 50px;
-				height: 50px;
+				width: 80px;
+				height: 80px;
 				position: absolute;
 				background-color: darkgray;	
 			}
@@ -35,10 +36,6 @@
 			#dd {
 				left: 100px;
 				top: 100px;
-			}
-	
-			body {
-				background-color: #000000;
 			}
 		</style>
 	</head>
@@ -78,19 +75,23 @@
 				   
 				   
 				   if(eleLeft < 0){
+						ele.style.left = "0px";
 					   ele.speedX *= -1;
 					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
 					   }
 				   if(eleLeft > window.innerWidth - eleW - 0){
+					   ele.style.left = window.innerWidth - eleW  + "px";
 					   eleLeft = window.innerWidth - eleW - 0;
 					   ele.speedX *= -1;
 					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
 					   }
 				   if(eleTop > window.innerHeight - eleH){
+					   ele.style.top = window.innerHeight - eleH + "px";
 					   ele.speedY *= -1;
 					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
 					   }
 				   if(eleTop < 0){
+					   ele.style.top = "0px";
 					   ele.speedY *= -1;
 					   ele.style.backgroundColor = eleColor[Math.round(Math.random()*100)%4];
 					   }
