@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			img {
+				height: 100%;
+				width: 100%;
+			}
+			.slider {
+				margin: auto auto;
+				width: 814px;
+				height: 543px;
+				top: 60px;
+				border: 3px solid crimson;
+				position: relative;
+				
+			}
+			li {
+				
+				height: 100%;
+				width: 100%;
+				position: absolute;
+				opacity: 0;
+				list-style: none;
+				
+			}
+			li:first-of-type {
+				opacity: 1;
+				
+			}
+			
+			#pre,#next {
+				position: absolute;
+				top: 250px;
+				height: 100px;
+				width: 30px;
+				opacity: 0.4;
+				transition: 1s;
+			}
+			#pre {
+				left: 0px;
+			}
+			#next{
+				right: 0px;
+			}
+			
+			#pre:hover,#next:hover{
+				opacity: 0.9;
+				transition: 1s;
+			}
+			.button{
+				width: 20px;
+				height: 20px;
+				background-color: brown;
+				margin-left: 5px;
+				float: left;
+				border: 1px solid yellow;
+				
+				
+				left: 320px;
+				position: relative;
+				opacity: 0.7;
+				list-style: none;
+				border-radius: 100% 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<div id="" class="slider">
+				
+				<li><img src="picture/carousel/1.jpg" ></li>
+				<li><img src="picture/carousel/2.jpg" ></li>
+				<li><img src="picture/carousel/3.jpg" ></li>
+				<li><img src="picture/carousel/4.jpg" ></li>	
+				<button type="button" id="pre"><</button>
+				<button type="button" id="next">></button>
+				
+			</div>
+			
+			
+			<ul id="dot">
+				<li class="button"  style="opacity: 0.7;"></li>
+				<li class="button"></li>
+				<li class="button"></li>
+				<li class="button"></li>
+			</ul>
+			
+		</div>
+		
+	</body>
+		<script type="text/javascript" src="js/animation.js"></script>
+		<script type="text/javascript">
+			(function(){
+				var preIndex , nextIndex;
+				var len,timeId;
+				function init(){
+					preIndex = nextIndex = 0;
+					
+					len = document.querySelectorAll(".slider li").length;
+					document.getElementById("pre").onclick = function(){
+						slidePre();
+					}
+					document.getElementById("next").onclick = function(){
+						slideNext();
+					}
+					var oButton = document.getElementsByClassName("button");
+				
+					for(var i in oButton){
+						oButton[i].index = i;
+						oButton[i].onclick = function(){
+						preIndex = nextIndex;
+						nextIndex = this.index;
+						slideTo(preIndex,nextIndex);
+						}
+					}
+					
+					var oSlider = document.querySelector(".slider");
+					oSlider.onmouseover = function(){
+						stop();
+					}
+					oSlider.onmouseout = function(){
+						auto();
+					}
+				}
+				function slidePre(){
+					preIndex = nextIndex;
+					nextIndex--;
+					if(nextIndex == -1){
+						nextIndex = len - 1;
+					}
+					slideTo(preIndex,nextIndex);
+				}
+				function slideNext(){
+					preIndex = nextIndex;
+					nextIndex++;
+					if(nextIndex == len)
+					{
+						nextIndex = 0;
+					}
+					slideTo(preIndex,nextIndex);
+				}
+				function slideTo(pre,next){
+					var lis = document.getElementsByTagName("li");
+					animation(lis[pre],{opacity: 0});
+					animation(lis[next],{opacity: 100});
+				}
+				function auto(){
+					clearInterval(timeId);
+					timeId = setInterval(function(){
+							slideNext();
+						},1500)
+				}
+				function stop(){
+					clearInterval(timeId);
+				}
+				init();
+				auto();
+				console.log(len);
+			})()
+		</script>
+</html>
