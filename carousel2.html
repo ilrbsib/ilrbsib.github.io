@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/animation.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0px;
+				padding: 0px;
+			}
+			ul{
+				list-style: none;
+			}
+			.slider{
+				top: 80px;
+				margin: auto auto;
+				width: 814px;
+				height: 543px;
+				position: relative;
+				overflow: hidden;/*超过隐藏*/
+			}
+			.slider .list{
+				position: absolute;
+			}
+			.slider .list .item{
+				width: 814px;
+				height: 543px;
+				float: left;
+			}
+			.slider .list .item img{
+				width: 814px;
+				height: 543px;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="slider">
+			<ul class="list">
+				<li class="item"><img src="picture/carousel/1.jpg"></li>
+				<li class="item"><img src="picture/carousel/2.jpg" ></li>
+				<li class="item"><img src="picture/carousel/3.jpg" ></li>
+				<li class="item"><img src="picture/carousel/4.jpg" ></li>
+			</ul>
+		</div>
+			<button type="button" class="pre">pre</button>
+			<button type="button" class="next">next</button>
+		<script type="text/javascript">
+			var currIndex;
+			var lis, liWidth, len;
+			var id;
+			function init(){
+				currIndex = 1;
+				var li_1 = document.querySelector(".slider .list .item:first-of-type");
+				var copy_1 = li_1.cloneNode(true);
+				var li_last = document.querySelector(".slider .list .item:last-of-type");
+				var copy_last = li_last.cloneNode(true);
+				
+				var list = document.querySelector(".slider .list");
+				list.appendChild(copy_1);
+				list.insertBefore(copy_last,li_1);
+			
+				lis = document.querySelectorAll(".list .item");
+				liWidth = lis[0].offsetWidth;
+				len = lis.length;
+				
+				list.style.width = liWidth * len + "px";
+				list.style.left = -liWidth + "px";
+				
+				document.querySelector(".pre").onclick = function(){
+					slidePre();
+				}
+				document.querySelector(".next").onclick = function(){
+					slideNext();
+				}
+			}
+			function slideTo(index){
+				var list = document.querySelector(".slider .list");
+				console.log(index);
+				if(index === len){
+					currIndex = index = 2;
+					list.style.left = -liWidth + "px";
+					
+				}
+				if(index === -1){
+					currIndex = index = len - 3;
+					list.style.left = -(len - 2) * liWidth + "px";
+					
+				}
+				var left = -index * liWidth;
+				animation(list,{left: left});
+			}
+			function slideNext(){
+				currIndex++;
+				slideTo(currIndex);
+			}
+			function slidePre(){
+				currIndex--;
+				slideTo(currIndex);
+			}
+			function auto(){
+				clearInterval(id);
+				id = setInterval(function(){
+					slideNext();
+				},3000);
+			}
+			
+			init();
+			auto();
+
+		</script>
+	</body>
+</html>
